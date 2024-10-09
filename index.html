@@ -193,15 +193,17 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         .modal-content2 {
             background-color: #fefefe;
-            margin: 15% auto;
+            margin: auto; /* Centrar el modal vertical y horizontalmente */
             padding: 20px;
             border: 1px solid #888;
-            width: 50%;
+            width: 90%; /* Ancho del modal en pantallas pequeñas */
+            max-width: 600px; /* Ancho máximo del modal */
+            border-radius: 8px; /* Bordes redondeados */
         }
 
         .close2 {
@@ -217,6 +219,18 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Media query para pantallas más pequeñas */
+        @media (max-width: 768px) {
+            .modal-content2 {
+                width: 95%; /* Ancho ligeramente mayor en pantallas pequeñas */
+            }
+
+            .close2 {
+                font-size: 24px; /* Tamaño de fuente más pequeño para el botón de cerrar */
+            }
+        }
+
         .button-option {
             display: flex;
             align-items: center;
@@ -250,6 +264,33 @@
             background-color: #f1f1f1;
             border-color: #bbb;
         }
+        .button-container {
+            display: flex;
+            justify-content: space-between; 
+            margin-top: 20px; 
+        }
+
+        .button-container button {
+            padding: 10px 20px; 
+            border: none;
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+
+        #resetUrls {
+            background-color: #e69f9f; 
+            color: white;
+        }
+
+        #confirmSelection {
+            background-color: #4CAF50;
+            color: white; 
+        }
+
+        .button-container button:hover {
+            opacity: 0.9; 
+        }
+
 
     </style>
 </head>
@@ -322,18 +363,21 @@
 
     <div id="selectionModal" class="modal2">
         <div class="modal-content2">
-          <span class="close2">&times;</span>
-          <h2>Seleccione el botón activo y añada URLs</h2>
-          <div id="buttonOptions"></div>
-          <div>
-            <label>
-              <input type="radio" name="activeButton" value="none" checked> Ninguno
-            </label>
-          </div>
-          <br>
-          <button id="confirmSelection">Confirmar selección</button>
+            <span class="close2">&times;</span>
+            <h2>Seleccione el botón activo y añada URLs</h2>
+            <div id="buttonOptions"></div>
+            <div>
+                <label>
+                    <input type="radio" name="activeButton" value="none" checked> Ninguno
+                </label>
+            </div>
+            <br>
+            <div class="button-container">
+                <button id="resetUrls">Reiniciar URLs</button>
+                <button id="confirmSelection">Confirmar</button>
+            </div>
         </div>
-    </div>      
+    </div>         
 
     <div id="alert" class="alert"></div>
 
@@ -530,6 +574,8 @@
             }, 2000);
         }
 
+        let buttonUrls = [];
+
         document.querySelector('button[onclick="generateMenu()"]').onclick = function() {
             const buttonNamesInput = document.getElementById('buttonNames');
             const names = buttonNamesInput.value.split(',').map(n => n.trim());
@@ -549,12 +595,13 @@
             buttonOptionsDiv.innerHTML = '';
 
             buttonNames.forEach((name, index) => {
+                const url = buttonUrls[index] || ''; 
                 const optionHtml = `
                     <div class="button-option">
                         <label class="button-label">
                             <input type="radio" name="activeButton" value="${index}"> ${name}
                         </label>
-                        <input type="text" class="button-url" placeholder="Ingrese URL para ${name}" data-index="${index}">
+                        <input type="text" class="button-url" placeholder="Ingrese URL para ${name}" data-index="${index}" value="${url}">
                     </div>
                 `;
                 buttonOptionsDiv.innerHTML += optionHtml;
@@ -571,12 +618,27 @@
                 modal.style.display = 'none';
             };
 
-            
             document.getElementById('confirmSelection').onclick = function() {
+                
+                const urlInputs = document.querySelectorAll('.button-url');
+                urlInputs.forEach(input => {
+                    const index = input.dataset.index;
+                    buttonUrls[index] = input.value;
+                });
+
                 modal.style.display = 'none'; 
                 applySelection();
             };
+
+            document.getElementById('resetUrls').onclick = function() {
+                buttonUrls = []; 
+                const urlInputs = document.querySelectorAll('.button-url');
+                urlInputs.forEach(input => {
+                    input.value = '';
+                });
+            };
         }
+
 
         function applySelection() {
             const activeButton = document.querySelector('input[name="activeButton"]:checked').value;
@@ -584,5 +646,7 @@
 
             generateMenu(buttonUrls, activeButton);
         }
+
+
     </script>
 </body>
