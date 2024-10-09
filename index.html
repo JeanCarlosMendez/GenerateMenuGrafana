@@ -13,8 +13,10 @@
             padding: 20px;
             background-color: #f4f4f4;
         }
+
         .container {
             display: flex;
+            flex-direction: column;
             max-width: 1200px;
             margin: 0 auto;
             background-color: #fff;
@@ -22,52 +24,60 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             overflow: hidden;
         }
-        .form-section {
-            flex: 1;
+
+        .form-section, .preview-section {
             padding: 20px;
-            border-right: 1px solid #e0e0e0;
+            width: 100%;
         }
+
         .preview-section {
-            flex: 1;
-            padding: 20px;
             background-color: #f9f9f9;
             display: grid;
-            flex-direction: column;
+            grid-template-columns: 1fr;
         }
+
         h1 {
             color: #333;
             margin-bottom: 20px;
         }
+
         .form-group {
             margin-bottom: 15px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
         }
+
         label {
-            flex: 0 0 30%;
-            margin-right: 10px;
+            margin-bottom: 5px;
             color: #666;
         }
+
         select, input[type="text"], input[type="color"] {
-            flex: 1;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
         }
+
         input[type="color"] {
             height: 40px;
             padding: 2px;
         }
+
         .color-input-group {
             display: flex;
             align-items: center;
+            justify-content: space-between;
         }
+
         .color-preview {
             width: 20px;
             height: 20px;
             border: 1px solid #ddd;
             margin-left: 10px;
         }
+
         button {
             background-color: #3274D9;
             color: white;
@@ -79,24 +89,30 @@
             align-self: flex-end;
             margin-top: auto;
         }
+
         button:hover {
             background-color: #2868c7;
         }
+
         #previewArea, #codeOutput {
             margin-top: 20px;
         }
+
         #menuPreview {
             border: 1px solid #ddd;
             padding: 10px;
             min-height: 100px;
             background-color: #fff;
+            max-width: 600px;
         }
+
         pre {
             background-color: #f4f4f4;
             padding: 10px;
             border-radius: 4px;
             overflow-x: auto;
         }
+
         .modal {
             display: none; 
             position: fixed; 
@@ -110,6 +126,7 @@
             background-color: rgba(0,0,0,0.4); 
             padding-top: 60px; 
         }
+
         .modal-content {
             background-color: #fefefe;
             margin: 5% auto; 
@@ -118,18 +135,21 @@
             width: 90%; 
             max-width: 90%;
         }
+
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
+
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
         }
+
         .expand-btn {
             cursor: pointer;
             color: #3274D9;
@@ -167,24 +187,29 @@
         .copy-btn:hover {
             color: #0056b3;
         }
+
         .contact {
             margin-top: 2rem;
             text-align: center;
         }
+
         .social-icons {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin-top: 0.5rem;
         }
+
         .social-icons a {
             color: #333;
             text-decoration: none;
             transition: color 0.3s;
         }
+
         .social-icons a:hover {
             color: #4CAF50;
         }
+
         .modal2 {
             display: none; 
             position: fixed;
@@ -198,12 +223,22 @@
 
         .modal-content2 {
             background-color: #fefefe;
-            margin: auto; /* Centrar el modal vertical y horizontalmente */
+            margin: auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 90%; /* Ancho del modal en pantallas pequeñas */
-            max-width: 600px; /* Ancho máximo del modal */
-            border-radius: 8px; /* Bordes redondeados */
+            width: 90%;
+            max-width: 600px; 
+            max-height: 80vh; 
+            display: flex;
+            flex-direction: column; 
+            border-radius: 8px;
+            overflow: hidden; 
+        }
+
+        #scrollableContent {
+            flex: 1; 
+            overflow-y: auto; 
+            padding-right: 10px;
         }
 
         .close2 {
@@ -218,17 +253,6 @@
             color: black;
             text-decoration: none;
             cursor: pointer;
-        }
-
-        /* Media query para pantallas más pequeñas */
-        @media (max-width: 768px) {
-            .modal-content2 {
-                width: 95%; /* Ancho ligeramente mayor en pantallas pequeñas */
-            }
-
-            .close2 {
-                font-size: 24px; /* Tamaño de fuente más pequeño para el botón de cerrar */
-            }
         }
 
         .button-option {
@@ -264,34 +288,79 @@
             background-color: #f1f1f1;
             border-color: #bbb;
         }
+
         .button-container {
             display: flex;
-            justify-content: space-between; 
-            margin-top: 20px; 
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid #ccc; 
         }
 
         .button-container button {
-            padding: 10px 20px; 
+            padding: 10px 20px;
             border: none;
-            border-radius: 5px; 
-            cursor: pointer; 
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         #resetUrls {
-            background-color: #e69f9f; 
+            background-color: #cc5f58;
             color: white;
         }
 
         #confirmSelection {
             background-color: #4CAF50;
-            color: white; 
+            color: white;
         }
 
         .button-container button:hover {
-            opacity: 0.9; 
+            opacity: 0.9;
         }
 
+        /* MEDIA QUERIES */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
 
+            .form-section {
+                border-right: 1px solid #e0e0e0;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            label {
+                margin-bottom: 5px;
+                flex: 1 0 auto;
+            }
+
+            select, input[type="text"], input[type="color"] {
+                width: 100%;
+            }
+
+            .color-input-group {
+                flex-direction: column;
+            }
+
+            .button-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -365,19 +434,21 @@
         <div class="modal-content2">
             <span class="close2">&times;</span>
             <h2>Seleccione el botón activo y añada URLs</h2>
-            <div id="buttonOptions"></div>
+            <div id="scrollableContent">
+                <div id="buttonOptions"></div>
+                
+            </div>
             <div>
                 <label>
                     <input type="radio" name="activeButton" value="none" checked> Ninguno
                 </label>
             </div>
-            <br>
             <div class="button-container">
                 <button id="resetUrls">Reiniciar URLs</button>
                 <button id="confirmSelection">Confirmar</button>
             </div>
         </div>
-    </div>         
+    </div>            
 
     <div id="alert" class="alert"></div>
 
@@ -417,14 +488,16 @@
 
             switch(style) {
                 case 'horizontal':
-                    html = `<div class="menu-horizontal" style="display: flex; flex-wrap: nowrap; justify-content: center; background-color: ${bgColor}; padding: 10px; overflow-x: auto; max-width: 100%;">
-                                ${names.map((name, index) => `
-                                    <a href="${buttonUrls[index] || '#'}" 
-                                    ${index === parseInt(activeIndex) ? 'class="active"' : ''} 
-                                    style="color: white; text-decoration: none; padding: 8px 15px; margin: 5px; border-radius: 4px; transition: background-color 0.3s; white-space: nowrap; background-color: ${index === parseInt(activeIndex) ? activeColor : color};">
-                                        ${name}
-                                    </a>`).join('')}
-                            </div>`;
+                    html = `<div class="menu-container" style="padding-right: 50px; overflow-x: auto; max-width: 100%; background-color: ${bgColor};">
+                        <div class="menu-horizontal" style="display: flex; flex-wrap: nowrap; justify-content: flex-start;  padding: 10px;">
+                            ${names.map((name, index) => `
+                                <a href="${buttonUrls[index] || '#'}" 
+                                ${index === parseInt(activeIndex) ? 'class="active"' : ''} 
+                                style="color: white; display: flex; text-decoration: none; padding: 8px 15px; margin-right: 10px; border-radius: 4px; transition: background-color 0.3s; white-space: nowrap; background-color: ${index === parseInt(activeIndex) ? activeColor : color}; min-width: 300px;">
+                                    ${name}
+                                </a>`).join('')}
+                        </div>
+                    </div>`;
                     break;
 
                 case 'vertical':
